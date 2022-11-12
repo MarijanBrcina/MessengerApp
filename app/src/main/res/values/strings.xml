@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">MessangerApp</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="dobrodo_li_u_aplikaciju">Dobrodošli u aplikaciju</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="prijava">Prijava</string>
+    <string name="registracija_novog_korisnika">Registracija novog korisnika</string>
+    <string name="ime">Ime</string>
+    <string name="potvrdite_lozinku">Potvrdite lozinku</string>
+    <string name="lozinka">Lozinka</string>
+    <string name="registracija">Registracija</string>
+    <string name="registriraj_se">Registriraj se!</string>
+    <string name="prijavite_se">Prijavite se!</string>
+    <string name="aplikacija_za_razgovor_s_prijevodom">Aplikacija za razgovor s prijevodom</string>
+</resources>
