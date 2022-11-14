@@ -9,7 +9,7 @@
     android:padding="@dimen/_24sdp"
     android:scrollbars="none"
     tools:context=".activities.SignUpActivity"
-    android:background="#9F8785">>
+    android:background="#9F8785">
 
     <LinearLayout
         android:layout_width="match_parent"

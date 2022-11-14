@@ -1,11 +1,10 @@
 package hr.unipu.android.messengerapp.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 
-import hr.unipu.android.messengerapp.R;
+import androidx.appcompat.app.AppCompatActivity;
+
 import hr.unipu.android.messengerapp.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {

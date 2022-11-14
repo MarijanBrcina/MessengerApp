@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="hr.unipu.android.messengerapp">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -28,6 +30,14 @@
         <activity android:name="hr.unipu.android.messengerapp.MainActivity">
 
         </activity>
+
+        <service
+            android:name=".firebase.MessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "531775044025",
+    "project_id": "messengerapp-63929",
+    "storage_bucket": "messengerapp-63929.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531775044025:android:9a659dcb4a4a93c0de1e68",
+        "android_client_info": {
+          "package_name": "hr.unipu.android.messangerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531775044025-0gagu0mc2chttd90h108tr5kc8s8jr5d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqjuNoOZcdjQ083ugmMr-EnaVT0XkDmlk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531775044025-0gagu0mc2chttd90h108tr5kc8s8jr5d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
