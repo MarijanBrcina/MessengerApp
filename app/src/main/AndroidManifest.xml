@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="hr.unipu.android.messengerapp.MainActivity">
+        <activity android:name="hr.unipu.android.messengerapp.activities.MainActivity">
 
         </activity>
 

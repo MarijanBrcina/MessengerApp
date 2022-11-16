@@ -1,4 +1,4 @@
-package hr.unipu.android.messengerapp;
+package hr.unipu.android.messengerapp.activities;
 
 import android.os.Bundle;
 
@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import hr.unipu.android.messengerapp.R;
 import hr.unipu.android.messengerapp.databinding.ActivityMainBinding;
 
 import android.view.Menu;
