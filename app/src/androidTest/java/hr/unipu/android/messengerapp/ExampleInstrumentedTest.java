@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("hr.unipu.android.messangerapp", appContext.getPackageName());
+        assertEquals("hr.unipu.android.messengerapp", appContext.getPackageName());
     }
 }
