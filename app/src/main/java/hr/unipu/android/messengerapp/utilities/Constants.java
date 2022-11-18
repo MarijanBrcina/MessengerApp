@@ -9,5 +9,6 @@ public class Constants {
     public static final String IS_SIGNED_IN = "isSignedIn";
     public static final String USER_ID = "userId";
     public static final String IMAGE = "image";
+    public static final String FCM_TOKEN = "fcmToken";
 
 }

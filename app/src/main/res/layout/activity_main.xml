@@ -4,30 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".activities.MainActivity"
-    android:background="#9F8785">
+    android:background="@color/background2">
 
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="86dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="97dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:background="@drawable/background_icon"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="@dimen/_10sdp" />
+
+        <TextView
+            android:id="@+id/text"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" />
+            android:layout_height="45dp"
+            android:layout_marginStart="@dimen/_100sdp"
+            android:layout_marginTop="-50dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold"/>
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:src="@drawable/ic_logout"
+        app:maxImageSize="@dimen/_50sdp"
+        app:fabCustomSize="@dimen/_70sdp"
+        android:backgroundTint="@color/primary"
+        app:tint="@color/white"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
