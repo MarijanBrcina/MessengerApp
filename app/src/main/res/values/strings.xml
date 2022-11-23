@@ -22,4 +22,7 @@
     <string name="registriraj_se">Registriraj se!</string>
     <string name="prijavite_se">Prijavite se!</string>
     <string name="aplikacija_za_razgovor_s_prijevodom">Aplikacija za razgovor s prijevodom</string>
+    <string name="odaberite_korisnika">Odaberite korisnika</string>
+    <string name="trenutni_korisnici">Trenutni korisnici</string>
+    <string name="korisnici">Korisnici</string>
 </resources>

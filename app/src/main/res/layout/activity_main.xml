@@ -47,11 +47,26 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_logout"
-        app:maxImageSize="@dimen/_50sdp"
-        app:fabCustomSize="@dimen/_70sdp"
         android:backgroundTint="@color/primary"
-        app:tint="@color/white"/>
+        android:src="@drawable/ic_logout"
+        app:fabCustomSize="@dimen/_70sdp"
+        app:maxImageSize="@dimen/_50sdp"
+        app:tint="@color/white" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/NewMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="@dimen/_225sdp"
+        android:backgroundTint="@color/primary"
+        android:src="@drawable/ic_add"
+        app:fabCustomSize="@dimen/_70sdp"
+        app:layout_anchor="@+id/logout"
+        app:layout_anchorGravity="top|center"
+        app:maxImageSize="@dimen/_50sdp"
+        app:tint="@color/white" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

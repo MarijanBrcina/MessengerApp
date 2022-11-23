@@ -30,6 +30,7 @@
         <activity android:name="hr.unipu.android.messengerapp.activities.MainActivity">
 
         </activity>
+        <activity android:name=".activities.UsersActivity"></activity>
 
         <service
             android:name=".firebase.MessagingService"

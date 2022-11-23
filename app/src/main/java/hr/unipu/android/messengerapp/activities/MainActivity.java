@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void logoutListeners (){
         binding.logout.setOnClickListener(v -> logout());
+        binding.NewMessage.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), UsersActivity.class)));
     }
 
     @Override
