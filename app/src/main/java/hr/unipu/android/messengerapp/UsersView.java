@@ -16,9 +16,12 @@ import hr.unipu.android.messengerapp.databinding.UserBinding;
 public class UsersView extends RecyclerView.Adapter<UsersView.UserView> {
 
     private List<User> users;
+    private final Listener listener;
 
-    public UsersView(List<User> users) {
+    public UsersView(List<User> users, Listener listener) {
+
         this.users = users;
+        this.listener = listener;
     }
 
     @NonNull
@@ -51,6 +54,7 @@ public class UsersView extends RecyclerView.Adapter<UsersView.UserView> {
         void UserData(User user) {
             binding.name.setText(user.name);
             binding.profilePicture.setImageBitmap(UserPicture(user.picture));
+            binding.getRoot().setOnClickListener(v -> listener.onClicked(user) );
         }
     }
 

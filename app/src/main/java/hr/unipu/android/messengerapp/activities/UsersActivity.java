@@ -3,6 +3,7 @@ package hr.unipu.android.messengerapp.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,13 +13,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import hr.unipu.android.messengerapp.Listener;
 import hr.unipu.android.messengerapp.User;
 import hr.unipu.android.messengerapp.UsersView;
 import hr.unipu.android.messengerapp.databinding.ActivityUsersBinding;
 import hr.unipu.android.messengerapp.utilities.Constants;
 import hr.unipu.android.messengerapp.utilities.PreferenceManager;
 
-public class UsersActivity extends AppCompatActivity {
+public class UsersActivity extends AppCompatActivity implements Listener {
 
     private ActivityUsersBinding binding;
     private PreferenceManager preferenceManager;
@@ -57,7 +59,7 @@ public class UsersActivity extends AppCompatActivity {
                             users.add(user);
                         }
                         if (users.size()>0) {
-                            UsersView usersView = new UsersView(users);
+                            UsersView usersView = new UsersView(users, this);
                             binding.userView.setAdapter(usersView);
                             binding.userView.setVisibility(View.VISIBLE);
                         }
@@ -72,5 +74,13 @@ public class UsersActivity extends AppCompatActivity {
         } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void onClicked(User user) {
+        Intent intent = new Intent(getApplicationContext(), MessagesActivity.class);
+        intent.putExtra(Constants.USER,user);
+        startActivity(intent);
+        finish();
     }
 }

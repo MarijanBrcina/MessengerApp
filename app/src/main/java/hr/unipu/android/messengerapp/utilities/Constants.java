@@ -10,5 +10,5 @@ public class Constants {
     public static final String USER_ID = "userId";
     public static final String IMAGE = "image";
     public static final String FCM_TOKEN = "fcmToken";
-
+    public static final String USER = "user";
 }

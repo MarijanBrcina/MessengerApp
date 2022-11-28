@@ -7,7 +7,7 @@
     <color name="input_backgorund">#ECECEC</color>
     <color name="icon_background">#20FFFFFF</color>
     <color name="error">#B00020</color>
-    <color name="reczived_message_background">#090D16</color>
+    <color name="received_message_background">#B37171</color>
     <color name="white">#FFFFFF</color>
     <color name="background">#A8A5A5</color>
     <color name="background2">#9F8785</color>
