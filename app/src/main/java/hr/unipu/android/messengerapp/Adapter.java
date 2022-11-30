@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import hr.unipu.android.messengerapp.databinding.MessageContainerBinding;
+import hr.unipu.android.messengerapp.databinding.MessageSentBinding;
 import hr.unipu.android.messengerapp.databinding.MessageReceivedBinding;
 
 public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -31,7 +31,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == SENT) {
             return new SentMessage(
-                    MessageContainerBinding.inflate(
+                    MessageSentBinding.inflate(
                             LayoutInflater.from(parent.getContext()),
                             parent,
                             false
@@ -72,9 +72,9 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     static class SentMessage extends RecyclerView.ViewHolder{
-        private final MessageContainerBinding binding;
+        private final MessageSentBinding binding;
 
-        SentMessage(MessageContainerBinding messageContainerBinding){
+        SentMessage(@NonNull MessageSentBinding messageContainerBinding){
             super(messageContainerBinding.getRoot());
             binding = messageContainerBinding;
         }

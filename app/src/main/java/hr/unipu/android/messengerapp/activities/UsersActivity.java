@@ -39,12 +39,11 @@ public class UsersActivity extends AppCompatActivity implements Listener {
     }
 
     private void getUsers(){
-        loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection(Constants.USERS)
                 .get()
                 .addOnCompleteListener(task -> {
-                    loading(false);
+
                     String currentId = preferenceManager.getString(Constants.USER_ID);
                     if (task.isSuccessful() && task.getResult() != null) {
                         List<User> users = new ArrayList<>();
@@ -56,6 +55,7 @@ public class UsersActivity extends AppCompatActivity implements Listener {
                             user.name = queryDocumentSnapshot.getString(Constants.NAME);
                             user.picture = queryDocumentSnapshot.getString(Constants.IMAGE);
                             user.token = queryDocumentSnapshot.getString(Constants.FCM_TOKEN);
+                            user.id = queryDocumentSnapshot.getId();
                             users.add(user);
                         }
                         if (users.size()>0) {
@@ -66,14 +66,6 @@ public class UsersActivity extends AppCompatActivity implements Listener {
                     }
                 });
 
-    }
-
-    private void loading(Boolean isLoading) {
-        if (isLoading){
-            binding.progressBar.setVisibility(View.VISIBLE);
-        } else {
-            binding.progressBar.setVisibility(View.INVISIBLE);
-        }
     }
 
     @Override

@@ -11,4 +11,9 @@ public class Constants {
     public static final String IMAGE = "image";
     public static final String FCM_TOKEN = "fcmToken";
     public static final String USER = "user";
+    public static final String COLLECTION = "collection";
+    public static final String TIME = "time";
+    public static final String SENDER = "sender";
+    public static final String RECEIVER = "receiver";
+    public static final String MESSAGE = "message";
 }

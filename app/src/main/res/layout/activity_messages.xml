@@ -6,28 +6,35 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     tools:context=".activities.MessagesActivity"
-    android:background="@color/primary">
+    android:background="@color/background2">
+    <View
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/background2"
+        app:layout_constraintBottom_toTopOf="@+id/send"
+        app:layout_constraintTop_toTopOf="parent"/>
     <View
         android:id="@+id/Header"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/primary_dark"
+        android:background="@color/primary"
         app:layout_constraintBottom_toTopOf="@id/Supporter"
         app:layout_constraintTop_toTopOf="parent"/>
+
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/back"
         android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_height="@dimen/_45sdp"
         android:layout_marginStart="@dimen/_1sdp"
-        android:layout_marginLeft="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginTop="8dp"
         android:padding="@dimen/_5sdp"
         android:src="@drawable/ic_back"
         android:tint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <View
         android:id="@+id/Supporter"
@@ -37,6 +44,7 @@
         app:layout_constraintTop_toBottomOf="@id/back"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
@@ -44,7 +52,9 @@
         android:overScrollMode="never"
         android:padding="@dimen/_20sdp"
         android:visibility="gone"
+        app:stackFromEnd="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="@+id/background"
         app:layout_constraintTop_toBottomOf="@+id/Supporter"/>
 
     <TextView
@@ -70,7 +80,7 @@
         android:layout_height="@dimen/_55sdp"
         android:layout_marginEnd="@dimen/_1sdp"
         android:layout_marginRight="@dimen/_16sdp"
-        android:background="@color/primary_dark"
+        android:background="@color/primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -86,17 +96,19 @@
     </FrameLayout>
 
     <EditText
-        android:id="@+id/message"
+        android:id="@+id/writeMessage"
         android:layout_width="0dp"
         android:layout_height="@dimen/_55sdp"
         android:layout_marginStart="@dimen/_1sdp"
         android:layout_marginLeft="@dimen/_16sdp"
         android:layout_marginRight="@dimen/_8sdp"
-        android:background="@color/primary_dark"
+        android:background="@color/primary"
         android:hint="@string/unesite_poruku"
         android:imeOptions="actionDone"
         android:importantForAutofill="no"
         android:inputType="text"
+        android:paddingStart="@dimen/_16sdp"
+        android:paddingEnd="@dimen/_16sdp"
         android:textColor="@color/white"
         android:textColorHint="@color/background"
         app:layout_constraintBottom_toBottomOf="parent"
