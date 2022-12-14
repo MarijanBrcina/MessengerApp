@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -16,6 +19,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,14 +39,15 @@ public class MessagesActivity extends AppCompatActivity {
     private Adapter adapter;
     private PreferenceManager preferenceManager;
     private FirebaseFirestore database;
+    private String chatId=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMessagesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        loadDetails();
         Listeners();
+        loadDetails();
         init();
         listen();
     }
@@ -60,6 +65,20 @@ public class MessagesActivity extends AppCompatActivity {
          message.put(Constants.RECEIVER, user1.id);
          message.put(Constants.MESSAGE, binding.writeMessage.getText().toString());
          database.collection(Constants.COLLECTION).add(message);
+         if (chatId != null) {
+             updateChat(binding.writeMessage.getText().toString());
+         } else {
+             HashMap<String, Object> chat = new HashMap<>();
+             chat.put(Constants.SENDER, preferenceManager.getString(Constants.USER_ID));
+             chat.put(Constants.NAME_SENDER, preferenceManager.getString(Constants.NAME));
+             chat.put(Constants.PICTURE_SENDER, preferenceManager.getString(Constants.IMAGE));
+             chat.put(Constants.RECEIVER, user1.id);
+             chat.put(Constants.NAME_RECEIVER, user1.name);
+             chat.put(Constants.PICTURE_RECEIVER, user1.picture);
+             chat.put(Constants.MESSAGE_LAST, binding.writeMessage.getText().toString());
+             chat.put(Constants.TIME, new Date());
+             addChat(chat);
+         }
          binding.writeMessage.setText(null);
      }
      private void listen(){
@@ -97,6 +116,9 @@ public class MessagesActivity extends AppCompatActivity {
              }
              binding.RecyclerView.setVisibility(View.VISIBLE);
          }
+         if (chatId == null){
+             checkForChat();
+         }
      });
     private Bitmap getBitmap(String Image){
         byte[] bytes = Base64.decode(Image, Base64.DEFAULT);
@@ -110,4 +132,42 @@ public class MessagesActivity extends AppCompatActivity {
         binding.back.setOnClickListener(v -> onBackPressed());
         binding.send.setOnClickListener(v -> message());
     }
+    private void addChat(HashMap<String,Object> chat) {
+        database.collection(Constants.COLLECTION_CHAT)
+                .add(chat)
+                .addOnSuccessListener(documentReference -> chatId = documentReference.getId());
+    }
+    private void updateChat(String message){
+        DocumentReference documentReference =
+                database.collection(Constants.COLLECTION_CHAT).document(chatId);
+        documentReference.update(
+                Constants.MESSAGE_LAST,message,
+                Constants.TIME, new Date()
+        );
+    }
+    private void checkForChat(){
+        if (messages.size() != 0){
+            checkChat(
+                    preferenceManager.getString(Constants.USER_ID),
+                    user1.id
+            );
+            checkChat(
+                    user1.id,
+                    preferenceManager.getString(Constants.USER_ID)
+            );
+        }
+    }
+    private void checkChat(String senderId, String receiverId){
+        database.collection(Constants.COLLECTION_CHAT)
+                .whereEqualTo(Constants.SENDER, senderId)
+                .whereEqualTo(Constants.RECEIVER, receiverId)
+                .get()
+                .addOnCompleteListener(messageOnCompleteListener);
+    }
+    private final OnCompleteListener<QuerySnapshot> messageOnCompleteListener = task -> {
+        if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size()>0){
+            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+            chatId = documentSnapshot.getId();
+        }
+    };
 }

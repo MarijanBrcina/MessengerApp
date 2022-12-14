@@ -5,38 +5,44 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Base64;
-import android.view.View;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
+import hr.unipu.android.messengerapp.LastMessageAdapter;
+import hr.unipu.android.messengerapp.Message;
+import hr.unipu.android.messengerapp.MessagesListener;
 import hr.unipu.android.messengerapp.R;
+import hr.unipu.android.messengerapp.User;
 import hr.unipu.android.messengerapp.databinding.ActivityMainBinding;
 import hr.unipu.android.messengerapp.utilities.Constants;
 import hr.unipu.android.messengerapp.utilities.PreferenceManager;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MessagesListener {
 
-    private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     private PreferenceManager preferenceManager;
+    private List<Message> chat;
+    private LastMessageAdapter messageAdapter;
+    private FirebaseFirestore database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +50,17 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());
+        init();
         userDetails();
         getToken();
         logoutListeners();
+        chat();
+    }
+    private void init(){
+        chat = new ArrayList<>();
+        messageAdapter = new LastMessageAdapter(chat, this);
+        binding.chatRecyclerView.setAdapter(messageAdapter);
+        database = FirebaseFirestore.getInstance();
     }
     private void userDetails(){
         binding.text.setText(preferenceManager.getString(Constants.NAME));
@@ -57,6 +71,54 @@ public class MainActivity extends AppCompatActivity {
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
+    private void chat(){
+        database.collection(Constants.COLLECTION_CHAT)
+                .whereEqualTo(Constants.SENDER, preferenceManager.getString(Constants.USER_ID))
+                .addSnapshotListener(eventListener);
+        database.collection(Constants.COLLECTION_CHAT)
+                .whereEqualTo(Constants.RECEIVER, preferenceManager.getString(Constants.USER_ID))
+                .addSnapshotListener(eventListener);
+    }
+    private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
+        if (error != null) {
+            return;
+        }
+        if (value != null) {
+            for (DocumentChange documentChange : value.getDocumentChanges()){
+                if (documentChange.getType()== DocumentChange.Type.ADDED){
+                    String sender = documentChange.getDocument().getString(Constants.SENDER);
+                    String receiver = documentChange.getDocument().getString(Constants.RECEIVER);
+                    Message message = new Message();
+                    message.sender = sender;
+                    message.receiver = receiver;
+                    if (preferenceManager.getString(Constants.USER_ID).equals(sender)){
+                        message.conPicture = documentChange.getDocument().getString(Constants.PICTURE_RECEIVER);
+                        message.conName = documentChange.getDocument().getString(Constants.NAME_RECEIVER);
+                        message.conId = documentChange.getDocument().getString(Constants.RECEIVER);
+                    } else {
+                        message.conPicture = documentChange.getDocument().getString(Constants.PICTURE_SENDER);
+                        message.conName = documentChange.getDocument().getString(Constants.NAME_SENDER);
+                        message.conId = documentChange.getDocument().getString(Constants.SENDER);
+                    }
+                    message.message = documentChange.getDocument().getString(Constants.MESSAGE_LAST);
+                    chat.add(message);
+                } else if (documentChange.getType() == DocumentChange.Type.MODIFIED){
+                    for (int i = 0; i < chat.size(); i++){
+                        String sender = documentChange.getDocument().getString(Constants.SENDER);
+                        String receiver = documentChange.getDocument().getString(Constants.RECEIVER);
+                        if (chat.get(i).sender.equals(sender) && chat.get(i).receiver.equals(receiver)){
+                            chat.get(i).message = documentChange.getDocument().getString(Constants.MESSAGE_LAST);
+                            chat.get(i).dateObject = documentChange.getDocument().getDate(Constants.TIME);
+                            break;
+                        }
+                    }
+                }
+            }
+            messageAdapter.notifyDataSetChanged();
+            binding.chatRecyclerView.smoothScrollToPosition(0);
+            binding.chatRecyclerView.setVisibility(View.VISIBLE);
+        }
+    };
     private void updateToken(String token) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference = database.collection(Constants.USERS).document(
@@ -107,5 +169,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClicked(User user) {
+        Intent intent = new Intent(getApplicationContext(), MessagesActivity.class);
+        intent.putExtra(Constants.USER, user);
+        startActivity(intent);
     }
 }

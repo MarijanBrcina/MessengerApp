@@ -7,4 +7,5 @@ import java.util.Date;
 public class Message {
     public String sender,receiver, message;
     public Date dateObject;
+    public String conId, conName,conPicture;
 }
