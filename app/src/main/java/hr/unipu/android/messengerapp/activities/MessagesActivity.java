@@ -1,7 +1,5 @@
 package hr.unipu.android.messengerapp.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -17,21 +15,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import hr.unipu.android.messengerapp.Adapter;
 import hr.unipu.android.messengerapp.Message;
 import hr.unipu.android.messengerapp.User;
 import hr.unipu.android.messengerapp.databinding.ActivityMessagesBinding;
-import hr.unipu.android.messengerapp.databinding.ActivityUsersBinding;
 import hr.unipu.android.messengerapp.utilities.Constants;
 import hr.unipu.android.messengerapp.utilities.PreferenceManager;
 
-public class MessagesActivity extends AppCompatActivity {
+public class MessagesActivity extends UserStatus {
 
     private ActivityMessagesBinding binding;
     private User user1;
@@ -40,6 +36,7 @@ public class MessagesActivity extends AppCompatActivity {
     private PreferenceManager preferenceManager;
     private FirebaseFirestore database;
     private String chatId=null;
+    private Boolean isOnline = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +78,28 @@ public class MessagesActivity extends AppCompatActivity {
          }
          binding.writeMessage.setText(null);
      }
+     private void UserStatus (){
+        database.collection(Constants.USERS).document(
+                user1.id
+        ).addSnapshotListener(MessagesActivity.this, (value, error) -> {
+            if (error != null){
+                return;
+            }
+            if (value != null){
+                if (value.getLong(Constants.USER_STATUS) != null) {
+                    int status = Objects.requireNonNull(
+                            value.getLong(Constants.USER_STATUS)
+                    ).intValue();
+                    isOnline = status == 1;
+                }
+            }
+            if (isOnline){
+                binding.textStatus.setVisibility(View.VISIBLE);
+            }else {
+                binding.textStatus.setVisibility(View.GONE);
+            }
+        });
+    }
      private void listen(){
         database.collection(Constants.COLLECTION)
                 .whereEqualTo(Constants.SENDER, preferenceManager.getString(Constants.USER_ID))
@@ -107,7 +126,6 @@ public class MessagesActivity extends AppCompatActivity {
                      messages.add(message);
                  }
              }
-//             Collections.sort(messages, (o1, o2) -> o1.dateObject.compareTo(o2.dateObject));
              if (count == 0){
                  adapter.notifyDataSetChanged();
              } else {
@@ -170,4 +188,10 @@ public class MessagesActivity extends AppCompatActivity {
             chatId = documentSnapshot.getId();
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UserStatus();
+    }
 }

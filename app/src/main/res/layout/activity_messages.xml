@@ -43,6 +43,20 @@
         android:layout_marginTop="@dimen/_12sdp"
         app:layout_constraintTop_toBottomOf="@id/back"/>
 
+    <TextView
+        android:id="@+id/textStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_2sdp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12ssp"
+        android:text="@string/na_mrezi"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/Header"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        android:visibility="gone"/>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecyclerView"
         android:layout_width="match_parent"
@@ -55,7 +69,7 @@
         app:stackFromEnd="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="@+id/background"
-        app:layout_constraintTop_toBottomOf="@+id/Supporter"/>
+        app:layout_constraintTop_toBottomOf="@+id/textStatus"/>
 
     <TextView
         android:id="@+id/name"

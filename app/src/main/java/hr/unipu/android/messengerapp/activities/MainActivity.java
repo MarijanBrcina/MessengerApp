@@ -13,8 +13,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Base64;
 
 import hr.unipu.android.messengerapp.LastMessageAdapter;
@@ -36,7 +34,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MessagesListener {
+public class MainActivity extends UserStatus implements MessagesListener {
 
     private ActivityMainBinding binding;
     private PreferenceManager preferenceManager;

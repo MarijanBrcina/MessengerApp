@@ -1,8 +1,5 @@
 package hr.unipu.android.messengerapp.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +17,7 @@ import hr.unipu.android.messengerapp.databinding.ActivityUsersBinding;
 import hr.unipu.android.messengerapp.utilities.Constants;
 import hr.unipu.android.messengerapp.utilities.PreferenceManager;
 
-public class UsersActivity extends AppCompatActivity implements Listener {
+public class UsersActivity extends UserStatus implements Listener {
 
     private ActivityUsersBinding binding;
     private PreferenceManager preferenceManager;
