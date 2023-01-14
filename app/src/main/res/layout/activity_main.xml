@@ -8,15 +8,15 @@
     tools:context=".activities.MainActivity"
     android:background="@color/background2">
 
-
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="86dp">
+        android:layout_height="150dp">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/profilePicture"
-            android:layout_width="97dp"
-            android:layout_height="match_parent"
+            android:layout_width="91dp"
+            android:layout_height="70dp"
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginLeft="@dimen/_12sdp"
             android:background="@drawable/background_icon"
@@ -34,7 +34,27 @@
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="@dimen/_20sdp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:layout_margin="16dp"
+            android:hint="@string/select"
+            android:textColorHint="@color/white"
+            app:layout_anchor="@+id/appBarLayout"
+            app:layout_anchorGravity="bottom|center">
+
+            <AutoCompleteTextView
+                android:id="@+id/select_language"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColorHint="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -47,7 +67,7 @@
         android:orientation="vertical"
         android:overScrollMode="never"
         android:padding="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_65sdp"
+        android:layout_marginTop="@dimen/_95sdp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:visibility="gone"/>
 
@@ -78,6 +98,8 @@
         app:layout_anchorGravity="top|center"
         app:maxImageSize="@dimen/_50sdp"
         app:tint="@color/white" />
+
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

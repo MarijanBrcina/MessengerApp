@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import hr.unipu.android.messengerapp.databinding.LastConversationBinding;
+import hr.unipu.android.messengerapp.databinding.ConversationBinding;
 
 public class LastMessageAdapter extends RecyclerView.Adapter<LastMessageAdapter.ChatViewHolder> {
     private final List<Message> messages;
@@ -26,7 +26,7 @@ public class LastMessageAdapter extends RecyclerView.Adapter<LastMessageAdapter.
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ChatViewHolder(
-                LastConversationBinding.inflate(
+                ConversationBinding.inflate(
                        LayoutInflater.from(parent.getContext()),
                        parent,
                        false
@@ -46,15 +46,14 @@ public class LastMessageAdapter extends RecyclerView.Adapter<LastMessageAdapter.
 
     class ChatViewHolder extends RecyclerView.ViewHolder{
 
-        LastConversationBinding binding;
-        ChatViewHolder(LastConversationBinding lastConversationBinding){
+        ConversationBinding binding;
+        ChatViewHolder(ConversationBinding lastConversationBinding){
             super(lastConversationBinding.getRoot());
             binding = lastConversationBinding;
         }
         void data(Message message){
             binding.profilePicture.setImageBitmap(getPicture(message.conPicture));
             binding.name.setText(message.conName);
-            binding.lastMessage.setText(message.message);
             binding.getRoot().setOnClickListener(v -> {
                 User user = new User();
                 user.id = message.conId;

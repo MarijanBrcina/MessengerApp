@@ -27,4 +27,7 @@
     <string name="korisnici">Korisnici</string>
     <string name="unesite_poruku">Unesite poruku..</string>
     <string name="na_mrezi">Na mreži</string>
+    <string name="select">Odaberite jezik</string>
+
+
 </resources>

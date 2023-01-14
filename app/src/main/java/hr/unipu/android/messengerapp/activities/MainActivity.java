@@ -27,6 +27,9 @@ import hr.unipu.android.messengerapp.utilities.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -35,6 +38,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends UserStatus implements MessagesListener {
+
+    String[] item = {"Engleski","Njemački","Francuski","Talijanski","Ruski","Španjolski" };
+
+    AutoCompleteTextView autoCompleteTextView;
+
+    ArrayAdapter<String> adapterItems;
 
     private ActivityMainBinding binding;
     private PreferenceManager preferenceManager;
@@ -53,6 +62,19 @@ public class MainActivity extends UserStatus implements MessagesListener {
         getToken();
         logoutListeners();
         chat();
+        autoCompleteTextView = findViewById(R.id.select_language);
+        adapterItems = new ArrayAdapter<String>(this, R.layout.list_language, item);
+
+        autoCompleteTextView.setAdapter(adapterItems);
+
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String item = adapterView.getItemAtPosition(position).toString();
+                Toast.makeText(MainActivity.this, "Odabrani jezik: " + item, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     private void init(){
         chat = new ArrayList<>();
