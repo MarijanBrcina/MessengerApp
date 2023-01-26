@@ -46,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
     private void setListeners() {
         binding.textLogin.setOnClickListener(v -> onBackPressed());
         binding.buttonRegistration.setOnClickListener(v -> {
-            if (isValidSignupDetails()) {
+            if (isValidSignup()) {
                 signUp();
             }
         });
@@ -114,7 +114,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
     );
 
-    private Boolean isValidSignupDetails() {
+    private Boolean isValidSignup() {
         if (binding.inputName.getText().toString().trim().isEmpty()) {
             showToast("Unesite ime");
             return false;

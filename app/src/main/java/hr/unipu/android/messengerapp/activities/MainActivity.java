@@ -15,7 +15,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import android.util.Base64;
 
-import hr.unipu.android.messengerapp.LastMessageAdapter;
+import hr.unipu.android.messengerapp.ConversationsAdapter;
 import hr.unipu.android.messengerapp.Message;
 import hr.unipu.android.messengerapp.MessagesListener;
 import hr.unipu.android.messengerapp.R;
@@ -33,7 +33,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,7 +47,7 @@ public class MainActivity extends UserStatus implements MessagesListener {
     private ActivityMainBinding binding;
     private PreferenceManager preferenceManager;
     private List<Message> chat;
-    private LastMessageAdapter messageAdapter;
+    private ConversationsAdapter messageAdapter;
     private FirebaseFirestore database;
 
     @Override
@@ -78,7 +77,7 @@ public class MainActivity extends UserStatus implements MessagesListener {
     }
     private void init(){
         chat = new ArrayList<>();
-        messageAdapter = new LastMessageAdapter(chat, this);
+        messageAdapter = new ConversationsAdapter(chat, this);
         binding.chatRecyclerView.setAdapter(messageAdapter);
         database = FirebaseFirestore.getInstance();
     }
@@ -120,14 +119,12 @@ public class MainActivity extends UserStatus implements MessagesListener {
                         message.conName = documentChange.getDocument().getString(Constants.NAME_SENDER);
                         message.conId = documentChange.getDocument().getString(Constants.SENDER);
                     }
-                    message.message = documentChange.getDocument().getString(Constants.MESSAGE_LAST);
                     chat.add(message);
                 } else if (documentChange.getType() == DocumentChange.Type.MODIFIED){
                     for (int i = 0; i < chat.size(); i++){
                         String sender = documentChange.getDocument().getString(Constants.SENDER);
                         String receiver = documentChange.getDocument().getString(Constants.RECEIVER);
                         if (chat.get(i).sender.equals(sender) && chat.get(i).receiver.equals(receiver)){
-                            chat.get(i).message = documentChange.getDocument().getString(Constants.MESSAGE_LAST);
                             chat.get(i).dateObject = documentChange.getDocument().getDate(Constants.TIME);
                             break;
                         }

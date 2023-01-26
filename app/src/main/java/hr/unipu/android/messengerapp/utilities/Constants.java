@@ -21,6 +21,5 @@ public class Constants {
     public static final String NAME_RECEIVER = "receiverName";
     public static final String PICTURE_SENDER = "senderPicture";
     public static final String PICTURE_RECEIVER = "receiverPicture";
-    public static final String MESSAGE_LAST = "last";
     public static final String USER_STATUS = "status";
 }

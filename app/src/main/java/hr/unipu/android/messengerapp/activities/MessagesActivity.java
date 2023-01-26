@@ -72,7 +72,6 @@ public class MessagesActivity extends UserStatus {
              chat.put(Constants.RECEIVER, user1.id);
              chat.put(Constants.NAME_RECEIVER, user1.name);
              chat.put(Constants.PICTURE_RECEIVER, user1.picture);
-             chat.put(Constants.MESSAGE_LAST, binding.writeMessage.getText().toString());
              chat.put(Constants.TIME, new Date());
              addChat(chat);
          }
@@ -159,7 +158,6 @@ public class MessagesActivity extends UserStatus {
         DocumentReference documentReference =
                 database.collection(Constants.COLLECTION_CHAT).document(chatId);
         documentReference.update(
-                Constants.MESSAGE_LAST,message,
                 Constants.TIME, new Date()
         );
     }

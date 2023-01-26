@@ -13,11 +13,11 @@ import java.util.List;
 
 import hr.unipu.android.messengerapp.databinding.ConversationBinding;
 
-public class LastMessageAdapter extends RecyclerView.Adapter<LastMessageAdapter.ChatViewHolder> {
+public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdapter.ChatViewHolder> {
     private final List<Message> messages;
     private final MessagesListener messagesListener;
 
-    public LastMessageAdapter(List<Message> messages, MessagesListener messagesListener) {
+    public ConversationsAdapter(List<Message> messages, MessagesListener messagesListener) {
         this.messages = messages;
         this.messagesListener = messagesListener;
     }
@@ -35,7 +35,7 @@ public class LastMessageAdapter extends RecyclerView.Adapter<LastMessageAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LastMessageAdapter.ChatViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ConversationsAdapter.ChatViewHolder holder, int position) {
     holder.data(messages.get(position));
     }
 
