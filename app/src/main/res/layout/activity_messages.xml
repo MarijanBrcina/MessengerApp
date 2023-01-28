@@ -70,10 +70,10 @@
         android:overScrollMode="never"
         android:padding="@dimen/_20sdp"
         android:visibility="gone"
-        app:stackFromEnd="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="@+id/background"
-        app:layout_constraintTop_toBottomOf="@+id/textStatus"/>
+        app:layout_constraintBottom_toTopOf="@+id/writeMessage"
+        app:layout_constraintTop_toBottomOf="@+id/Header"
+        app:stackFromEnd="true" />
 
     <TextView
         android:id="@+id/name"

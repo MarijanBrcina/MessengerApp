@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +47,7 @@ public class MessagesActivity extends UserStatus {
         Listeners();
         loadDetails();
         init();
-        listen();
+        Messages();
     }
      private void init(){
         preferenceManager = new PreferenceManager(getApplicationContext());
@@ -99,7 +100,7 @@ public class MessagesActivity extends UserStatus {
             }
         });
     }
-     private void listen(){
+     private void Messages(){
         database.collection(Constants.COLLECTION)
                 .whereEqualTo(Constants.SENDER, preferenceManager.getString(Constants.USER_ID))
                 .whereEqualTo(Constants.RECEIVER, user1.id)
@@ -125,6 +126,7 @@ public class MessagesActivity extends UserStatus {
                      messages.add(message);
                  }
              }
+             //Collections.sort(messages, (obj1, obj2) -> obj1.dateObject.compareTo(obj2.dateObject));
              if (count == 0){
                  adapter.notifyDataSetChanged();
              } else {

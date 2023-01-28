@@ -33,6 +33,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class MainActivity extends UserStatus implements MessagesListener {
         userDetails();
         getToken();
         logoutListeners();
-        chat();
+        chats();
         autoCompleteTextView = findViewById(R.id.select_language);
         adapterItems = new ArrayAdapter<String>(this, R.layout.list_language, item);
 
@@ -90,7 +91,7 @@ public class MainActivity extends UserStatus implements MessagesListener {
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
-    private void chat(){
+    private void chats(){
         database.collection(Constants.COLLECTION_CHAT)
                 .whereEqualTo(Constants.SENDER, preferenceManager.getString(Constants.USER_ID))
                 .addSnapshotListener(eventListener);
@@ -131,6 +132,7 @@ public class MainActivity extends UserStatus implements MessagesListener {
                     }
                 }
             }
+            //Collections.sort(chat, (obj1, obj2) -> obj1.dateObject.compareTo(obj2.dateObject));
             messageAdapter.notifyDataSetChanged();
             binding.chatRecyclerView.smoothScrollToPosition(0);
             binding.chatRecyclerView.setVisibility(View.VISIBLE);
