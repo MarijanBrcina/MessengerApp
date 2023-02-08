@@ -30,6 +30,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ import java.util.List;
 
 public class MainActivity extends UserStatus implements MessagesListener {
 
-    String[] item = {"Engleski","Njemački","Francuski","Talijanski","Ruski","Španjolski" };
+    String[] item = {"Engleski","Njemački","Francuski","Talijanski","Ruski","Španjolski", "Originalni jezik" };
 
     AutoCompleteTextView autoCompleteTextView;
 
@@ -50,6 +51,8 @@ public class MainActivity extends UserStatus implements MessagesListener {
     private List<Message> chat;
     private ConversationsAdapter messageAdapter;
     private FirebaseFirestore database;
+    private AutoCompleteTextView jezik_dropdown;
+    List recievers = new ArrayList(); // lista koja ce sakupljati sve recievere i prestaniti unositi ako postoje 2 ista, da se ne duplicira
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class MainActivity extends UserStatus implements MessagesListener {
         logoutListeners();
         chats();
         autoCompleteTextView = findViewById(R.id.select_language);
+        jezik_dropdown= findViewById(R.id.select_language);
         adapterItems = new ArrayAdapter<String>(this, R.layout.list_language, item);
 
         autoCompleteTextView.setAdapter(adapterItems);
@@ -100,17 +104,22 @@ public class MainActivity extends UserStatus implements MessagesListener {
                 .addSnapshotListener(eventListener);
     }
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
+
         if (error != null) {
             return;
         }
         if (value != null) {
             for (DocumentChange documentChange : value.getDocumentChanges()){
                 if (documentChange.getType()== DocumentChange.Type.ADDED){
+                    if(recievers.contains(documentChange.getDocument().getString(Constants.RECEIVER)))
+                        continue;
                     String sender = documentChange.getDocument().getString(Constants.SENDER);
                     String receiver = documentChange.getDocument().getString(Constants.RECEIVER);
+
                     Message message = new Message();
                     message.sender = sender;
                     message.receiver = receiver;
+                    recievers.add(receiver);
                     if (preferenceManager.getString(Constants.USER_ID).equals(sender)){
                         message.conPicture = documentChange.getDocument().getString(Constants.PICTURE_RECEIVER);
                         message.conName = documentChange.getDocument().getString(Constants.NAME_RECEIVER);
@@ -123,8 +132,11 @@ public class MainActivity extends UserStatus implements MessagesListener {
                     chat.add(message);
                 } else if (documentChange.getType() == DocumentChange.Type.MODIFIED){
                     for (int i = 0; i < chat.size(); i++){
+                        if(recievers.contains(documentChange.getDocument().getString(Constants.RECEIVER))) // ako se nadje isti reciever breaka petlju da ne stvara jos jedan chat s istim recieverom
+                            break;
                         String sender = documentChange.getDocument().getString(Constants.SENDER);
                         String receiver = documentChange.getDocument().getString(Constants.RECEIVER);
+
                         if (chat.get(i).sender.equals(sender) && chat.get(i).receiver.equals(receiver)){
                             chat.get(i).dateObject = documentChange.getDocument().getDate(Constants.TIME);
                             break;
@@ -142,7 +154,7 @@ public class MainActivity extends UserStatus implements MessagesListener {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference = database.collection(Constants.USERS).document(
                 preferenceManager.getString(Constants.USER_ID)
-                );
+        );
         documentReference.update(Constants.FCM_TOKEN, token);
     }
     private void getToken(){
@@ -157,10 +169,10 @@ public class MainActivity extends UserStatus implements MessagesListener {
         HashMap<String, Object> updates = new HashMap<>();
         updates.put(Constants.FCM_TOKEN, FieldValue.delete());
         documentReference.update(updates).addOnSuccessListener(unused -> {
-            preferenceManager.clear();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finish();
-        })
+                    preferenceManager.clear();
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    finish();
+                })
                 .addOnFailureListener(e -> showToast("Odjava nije moguća"));
     }
     private void logoutListeners (){
@@ -194,6 +206,11 @@ public class MainActivity extends UserStatus implements MessagesListener {
     public void onClicked(User user) {
         Intent intent = new Intent(getApplicationContext(), MessagesActivity.class);
         intent.putExtra(Constants.USER, user);
+        String jezik_odabran = String.valueOf(jezik_dropdown.getText()); // gleda koji jezik si odabrao za prijevod
+        if(jezik_odabran.equals(null) | jezik_odabran.equals("")) // ako nisi nista ili je prazno onda stvalje sve u original
+            intent.putExtra("jezik", "org");
+        else
+            intent.putExtra("jezik", jezik_odabran); // salje odabran jezik drugoj aktivnosti ( massageActivity) da zna kako treba prevodit
         startActivity(intent);
     }
 }

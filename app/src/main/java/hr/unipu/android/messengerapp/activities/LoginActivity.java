@@ -47,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(){
-        loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection(Constants.USERS)
                 .whereEqualTo(Constants.EMAIL, binding.inputEmail.getText().toString())
@@ -64,19 +63,9 @@ public class LoginActivity extends AppCompatActivity {
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     } else {
-                        loading(false);
                         showToast("Nije moguće izvršiti prijavu, provjerite točnost podataka");
                     }
                 });
-    }
-    private void loading(Boolean Loading) {
-        if (Loading){
-            binding.buttonLogin.setVisibility(View.INVISIBLE);
-            binding.progressBar.setVisibility(View.VISIBLE);
-        } else {
-            binding.progressBar.setVisibility(View.INVISIBLE);
-            binding.buttonLogin.setVisibility(View.VISIBLE);
-        }
     }
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
